@@ -29,7 +29,7 @@ export function canCreatePrivate(
 ): Promise<boolean> {
   const headers = getHeaders(accessToken)
 
-  fetch(`${GITHUB_API_BASE_URL}/user`, {
+  return fetch(`${GITHUB_API_BASE_URL}/user`, {
     method: 'GET',
     headers,
   }).then(res => {
