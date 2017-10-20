@@ -9,7 +9,7 @@ import program from 'commander'
 import co from 'co'
 import chalk from 'chalk'
 import fs from 'fs'
-import {createRepo, checkIfRepoExists} from './lib/github'
+import {createRepo, checkIfRepoExists, canCreatePrivate,} from './lib/github'
 import {
   getHeaders,
   initiateRepo,
@@ -71,8 +71,15 @@ function main(name: string): void {
     }
     fs.mkdirSync(dir)
     const useSSHRemote = yield prompt('Use SSH remote instead of https? y/N')
-    const isPrivate = yield prompt('Private repo? y/N: ')
+    
+    const hasPrivate = yield canCreatePrivate(basicAuthToken)
+
+    const isPrivate = hasPrivate 
+      ? yield prompt('Private repo? y/N: ')
+      : console.log(chalk.bold.red(`Unauthorized for private creation! This repo will be public!`))
+
     const description = yield prompt('Description: ')
+
     const hasReact = yield hasCreateReactApp()
     const useReact = hasReact
       ? yield prompt('Use create-react-app? y/N: ')
