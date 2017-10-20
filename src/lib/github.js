@@ -26,16 +26,16 @@ export function createRepo({
 
 export function canCreatePrivate(
   accessToken: string,
-): Promise<any> {
+): Promise<boolean> {
   const headers = getHeaders(accessToken)
 
   fetch(`${GITHUB_API_BASE_URL}/user`, {
     method: 'GET',
     headers,
   }).then(res => {
-    const scopes = res.headers._headers['x-oauth-scopes']
-    console.log(scopes)
-  }).catch(err => console.log(err))
+    const scopes = res.headers._headers['x-oauth-scopes'].pop().split(', ')
+    return scopes.some(scope => scope === 'repo')
+  })
 }
 
 export function checkIfRepoExists(
