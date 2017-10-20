@@ -24,6 +24,20 @@ export function createRepo({
   }).then(res => res.json())
 }
 
+export function canCreatePrivate(
+  accessToken: string,
+): Promise<any> {
+  const headers = getHeaders(accessToken)
+
+  fetch(`${GITHUB_API_BASE_URL}/user`, {
+    method: 'GET',
+    headers,
+  }).then(res => {
+    const scopes = res.headers._headers['x-oauth-scopes']
+    console.log(scopes)
+  }).catch(err => console.log(err))
+}
+
 export function checkIfRepoExists(
   name: string,
   accessToken: string,
