@@ -74,9 +74,13 @@ function main(name: string): void {
     
     const hasPrivate = yield canCreatePrivate(basicAuthToken)
 
-    const isPrivate = hasPrivate 
+    const isPrivate = hasPrivate
       ? yield prompt('Private repo? y/N: ')
-      : console.log(chalk.bold.red(`Unauthorized for private creation! This repo will be public!`))
+      : console.log(
+          chalk.bold.red(
+            `Unauthorized for private creation! This repo will be public!`,
+          ),
+        )
 
     const description = yield prompt('Description: ')
 
