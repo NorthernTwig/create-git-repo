@@ -31,8 +31,8 @@ export function canCreatePrivate(
   return fetch(`${GITHUB_API_BASE_URL}/user`, {
     method: 'GET',
     headers,
-  }).then(res => {
-    const scopes = res.headers._headers['x-oauth-scopes'].pop().split(', ')
+  }).then(({headers}: any) => {
+    const scopes = headers._headers['x-oauth-scopes'].pop().split(', ')
     return scopes.some(scope => scope === 'repo')
   })
 }
